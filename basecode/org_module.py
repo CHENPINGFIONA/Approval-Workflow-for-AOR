@@ -197,24 +197,24 @@ def create_org_structure():
 		org_name = st.selectbox("Select an organization:", org_names)
 
 		# Collect user inputs
-		school_name = st.text_input("Enter a division name:")
-		num_levels = st.number_input("Enter number of levels in the division:", min_value=1, value=1)
+		school_name = st.text_input("Enter a school name:")
+		num_levels = st.number_input("Enter number of levels in the school:", min_value=1, value=1)
 
 		level_names = [st.text_input(f"Enter name for Level {i + 1}:") for i in range(num_levels)]
 		num_classes_per_level = [st.number_input(f"Enter number of classes for Level {i + 1}:", min_value=1, value=1) for i in range(num_levels)]
 		class_names = [[st.text_input(f"Enter name for Class {j + 1} in Level {i + 1}:") for j in range(num_classes_per_level[i])] for i in range(num_levels)]
 		num_students_per_class = [[st.number_input(f"Enter number of students for Class {j + 1} in Level {i + 1}:", min_value=1, value=1) for j in range(num_classes_per_level[i])] for i in range(num_levels)]
 		
-		num_teachers = st.number_input("Enter number of teachers for the division:", min_value=1, value=1)
+		num_teachers = st.number_input("Enter number of teachers for the school:", min_value=1, value=1)
 
 		# When the submit button is pressed
 		if st.button('Submit'):
-			# Check if division with the same name already exists for the organization
+			# Check if school with the same name already exists for the organization
 			cursor.execute("SELECT school_name FROM Schools WHERE LOWER(school_name) = ?", (school_name.lower(),))
 			existing_school = cursor.fetchone()
 
 			if existing_school:
-				st.warning(f"Division {school_name} already exists. Please choose a different name")
+				st.warning(f"School {school_name} already exists. Please choose a different name")
 				
 
 			else:
