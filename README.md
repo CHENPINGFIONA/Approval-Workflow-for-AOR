@@ -15,12 +15,10 @@ This kit will automatically:
 
 ## User-role specific features
 > [!NOTE]  
-> This app comes with the following user roles: admins, teachers, and students
+> This app comes with the following user roles: admins, approvers, and requesters
  - **Admins** can reset passwords of students and teachers
- - **Teachers** can add and remove documents 
- - **Teachers** can build and remove knowledge base (VectorStores)
- - **Admins** can edit knowledge base and documents
- - **Students** can load their own knowledge base for their own chatbot
+ - **Approver** can add and remove documents 
+ - **Requester** can load their own knowledge base for their own chatbot
 
 You can fork it at streamlit community cloud, it can be used straight away, just add the following to your streamlit secrets
 
