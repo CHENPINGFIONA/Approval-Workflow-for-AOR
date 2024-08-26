@@ -162,7 +162,8 @@ def main():
 			st.session_state.title_page = DEFAULT_TITLE 
 
 		st.title(st.session_state.title_page)
-		
+		sac.divider(label='Exploring Generative Artificial Intelligence', icon='house')
+
 		# Define the NLTK data directory
 		nltk_data_dir = st.secrets["NLTK_DATA"]
 
