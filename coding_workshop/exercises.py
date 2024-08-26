@@ -40,23 +40,7 @@ client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
 )
-
-#clear messages and memory
-def clear_session_states():
-	st.session_state.message = []
-	st.session_state.chat_msg = []
-	if "memory" not in st.session_state:
-		pass
-	else:
-		del st.session_state["memory"]
-
-#############################################################
-#############################################################
-#Only modify the code below for the exercises and challenges#
-#############################################################
-#############################################################
-
-#exercise 0 - hello world python
+#exercise 0 - hello world python 
 def hello_world():
 	st.write("Hello World")
 	st.write("My name is ... ")
@@ -71,7 +55,7 @@ def button_exercise():
 	if st.button("Say Hello"):
 		st.write("Hello")
 	else:
-		st.write("Click button")
+		st.write("Goodbye")
 
 #exercise 3 - if else
 def using_if_else():
@@ -81,17 +65,15 @@ def using_if_else():
 	elif gender == "Female":
 		st.write("Hello Madam")
 	else:
-		st.write("Press select your Gender first.")		
+		st.write("Press select your Gender first.")	
 
-#challenge 1 is to modify the code below when click "Greetings" button it says "Hello (your name)"
+#challenge 1 is to modify the code below to create a button that says "Say Goodbye"
 def button_input_exercise():
 	name = st.text_input("Enter your name:", key=2)
-	#add buton here
-	#if button...
-	# st.write("something" + name)
-	#else...
-	#do something else
-
+	if st.button("Greetings"):
+		st.write("Hello " + name)
+	else:
+		st.write("Goodbye " + name)
 
 #exercise 4 - session state
 def using_session_state():
@@ -99,7 +81,7 @@ def using_session_state():
 	count = 0
 	if st.button("Increment Variable"):
 		count += 1
-	st.write("Variable Count = ", count)
+	st.write("Variable Count = ", count + 1)
 	st.write("Using Session State")
 	#initialize session state
 	if "count" not in st.session_state:
@@ -122,23 +104,20 @@ def rule_based_question_answering():
 
 #challenge 2 modify the code below to create a rule based question answering system using session state and show the previous query
 def rule_based_question_answering_challenge():
+	question = st.text_input("Enter your query:")
 	if "previous_query" not in st.session_state:
 		st.session_state.previous_query = ""
-	st.write("Previous query is " + st.session_state.previous_query)
-	question = st.text_input("Enter your query:")
-	#modify below to use session state
 	if question == "What is your name?":
-		#st.write...
-		#st.session_state.previous_query.....
-		pass
+		st.write("My name is EAI, an electronic artificial being.")
+		st.session_state.previous_query = question
 	elif question == "How old are you?":
-		#st.write...
-		#st.session_state.previous_query.....
-		pass
+		st.write("Today is my birthday!")
+		st.session_state.previous_query = question
+	elif question == "Show me the previous query":
+		st.write("Previous query is " + st.session_state.previous_query)
 	else:
-		#st.write...
-		#st.session_state.previous_query.....
-		pass
+		st.write("I am sorry, I am unable to help you with your query.")
+		st.session_state.previous_query = question
 
 #exercise 6 - simple data structure
 def simple_data_structure():
@@ -229,8 +208,7 @@ def append_form_data_to_list():
 			"Age": age,
 			"Gender": gender
 		}
-		#modify below to append data
-		#st.session_state.list_of_dict.append(...)
+		st.session_state.list_of_dict.append(person)
 	#display the list of dictionaries using a for loop
 	for x in st.session_state.list_of_dict:
 		st.write(x)
@@ -239,31 +217,59 @@ def append_form_data_to_list():
 
 
 #Streamlit App challenge - python recap and streamlit
-#create your first streamlit app
-def streamlit_app():
-	st.write("My first Streamlit App")
-	st.write("This is a Gen AI Workshop registration app for up to 5 participants")
-		
-	# 1. create a form from the streamlit documentation
+def streamlit_app_example():
+	st.title("Streamlit App Exercise")
+	
+	# 1. Initialize session state
+	if 'participants' not in st.session_state:
+		st.session_state.participants = []
 
-	# 2. after the form is submitted, set it into a dictionary
-	
-	# 3. set the list_of_dict session state to a list
-	
-	# 4. append the dictionary to the list_of_dict session state
-	
-	# 5. display the list of dictionaries using a for loop
-	
-	# 6. count the number of dictionaries in the list_of_dict session state
-	
-	# 7. if the number of dictionaries is more than 5, say "Course Resgistration is full"
-	
-	
+	# 2. Function to add participant
+	def add_participant():
+		participant = {
+			"Name": name,
+			"Age": age,
+			"Gender": gender,
+			"Email": email,
+			"Phone Number": phone,
+			"Department": department
+		}
+		st.session_state['participants'].append(participant)
+
+	# 3. Streamlit form
+	with st.form("participant_form", clear_on_submit=True):
+		st.write("Participant Registration Form")
+
+		# Form fields
+		name = st.text_input("Name")
+		age = st.number_input("Age", min_value=16, max_value=99, step=1)
+		gender = st.selectbox("Gender", ["Male", "Female", "Other"])
+		email = st.text_input("Email")
+		phone = st.text_input("Phone Number")
+		department = st.selectbox("Department", ["Sales", "Marketing", "IT", "HR", "Finance", "Operations"])
+
+		# Submit button
+		submit_button = st.form_submit_button("Submit")
+
+	# 4. Process form submission
+	if submit_button:
+		if len(st.session_state['participants']) < 5:
+			add_participant()
+			st.success("Registration Successful!")
+		else:
+			st.error("Registration Full")
+
+	# 5. Display participants in a DataFrame
+	if st.session_state['participants']:
+		df = pd.DataFrame(st.session_state['participants'])
+		st.write(df)
+
 
 
 #---------------------------------building chatbots ---------------------------------------------------------------------------------------#
 
-#Exercise 1 
+
+#Challenge 1 is to modify the code below to create a rule based bot and creating a dictionary data to store the prompts and replies
 def get_reply(prompt):
 	# Dictionary of prompts and replies
 	replies = {
@@ -275,14 +281,10 @@ def get_reply(prompt):
 	# Return the reply for the given prompt, or a default response
 	return replies.get(prompt, "I am sorry, I am unable to help you with your query.")
 
-#challenge 1 is to modify the code below to create a rule based bot and creating a dictionary data to store the prompts and replies
+#Exercise and challenge 1
 def rule_based_chatbot():
 
 	st.title("Echo Bot to Rule Based Bot")
-
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
 
 	# Initialize chat history
 	if "messages" not in st.session_state:
@@ -301,9 +303,9 @@ def rule_based_chatbot():
 		# Add user message to chat history
 		st.session_state.messages.append({"role": "user", "content": prompt})
 		
-		#modify the code below to create a rule based bot ( challenge 2), replace f"Echo: {prompt}" with get_reply(prompt)
-		response = f"Echo: {prompt}"
-		#response = get_reply(prompt)
+		#modify the code below to create a rule based bot ( challenge 2)
+		#response = f"Echo: {prompt}"
+		response = get_reply(prompt)
 
 		# Display assistant response in chat message container
 		with st.chat_message("assistant"):
@@ -321,7 +323,7 @@ def api_call_exercise():
 		response = client.chat.completions.create(
 			model=MODEL,
 			messages=[
-				{"role": "system", "content": "You are a helpful assistant."},
+				{"role": "system", "content": "Speak like a pirate"},
 				{"role": "user", "content": "Tell me the story about Singapore in the 1970s in 50 words."},
 			],
 			temperature=0,
@@ -349,14 +351,12 @@ def call_api_challenge():
 	prompt_design = "You are a helpful assistant."
 	prompt_query = st.text_input("Enter your prompt query:", value="Tell me about Singapore in the 1970s in 50 words.")
 	if st.button("Call the API"):
-		#modify the code below to create a function call_api to pass the prompt_design and prompt_query to call the OpenAI API
 		if prompt_design and prompt_query:
-			#call your api_call function here
-			st.write("Call the api_call function here")
+			api_call(prompt_design, prompt_query)
 		else:
-			st.warning("Please enter a prompt query.")
+			st.warning("Please enter a prompt design and prompt query.")
+	
 
-#challenge 2 this function below is called by the call_api_challenge function
 def api_call(p_design, p_query):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
@@ -384,16 +384,14 @@ def api_call(p_design, p_query):
 		st.write(f"Prompt Tokens: {prompt_tokens}")
 		st.write(f"Total Tokens: {total_tokens}")
 
-
 #Exercise 3 is to simplify the api call function and create the chat completion function
 def chat_completion(prompt_design, prompt):
 	MODEL = "gpt-3.5-turbo"
-	# replace both the “content” below with the user input
 	response = client.chat.completions.create(
 		model=MODEL,
 		messages=[
-			{"role": "system", "content": "You are a helpful assistant."},
-			{"role": "user", "content": "Tell me about Singapore in the 1970s in 50 words."},
+			{"role": "system", "content": prompt_design},
+			{"role": "user", "content": prompt},
 		],
 		temperature=0,
 	)
@@ -403,10 +401,6 @@ def chat_completion(prompt_design, prompt):
 def ai_chatbot():
 
 	st.title("Rule Based Bot to AI Chatbot")
-
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
 
 	# Initialize chat history
 	if "messages" not in st.session_state:
@@ -425,10 +419,9 @@ def ai_chatbot():
 		# Add user message to chat history
 		st.session_state.messages.append({"role": "user", "content": prompt})
 		
-		# remove get_reply function and replace with chat_completion function and pass in two parameters
-		response = get_reply(prompt)
-		#response = .....
-
+		#modify the code below to create an AI chatbot ( challenge 3)
+		#response = get_reply(prompt)
+		response = chat_completion("You are a helpful assistant", prompt)
 
 		# Display assistant response in chat message container
 		with st.chat_message("assistant"):
@@ -457,10 +450,6 @@ def basebot():
 
 	st.title("Chatbot with Streaming")
 
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
-
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
 		st.session_state.chat_msg = []
@@ -469,7 +458,6 @@ def basebot():
 	for message in st.session_state.chat_msg:
 		with st.chat_message(message["role"]):
 			st.markdown(message["content"])
-	
 	try:
 		#
 		if prompt := st.chat_input("What is up?"):
@@ -493,8 +481,6 @@ def basebot():
 	except Exception as e:
 		st.error(e)
 
-
-
 # Exercise 5 - Set the prompt design for the chatbot
 def prompt_design():
 
@@ -510,11 +496,6 @@ def prompt_design():
 #Challenge 5 - Set the prompt design for the chatbot for the AI Chatbot
 #Hint Replace You are a helpful assistant with the prompt design variable #st.session_state.prompt_template
 def basebot_prompt_design():
-
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
-
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
 		st.session_state.chat_msg = []
@@ -523,7 +504,6 @@ def basebot_prompt_design():
 	for message in st.session_state.chat_msg:
 		with st.chat_message(message["role"]):
 			st.markdown(message["content"])
-
 	try:
 		#
 		if prompt := st.chat_input("What is up?"):
@@ -537,14 +517,14 @@ def basebot_prompt_design():
 				full_response = ""
 				# streaming function
 				#replace the prompt design "You are a helpful assistant" with the prompt design variable st.session_state.prompt_template
-				for response in chat_completion_stream("You are a helpful assistant", prompt):
+				for response in chat_completion_stream(st.session_state.prompt_template, prompt):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
 			st.session_state.chat_msg.append(
 				{"role": "assistant", "content": full_response}
 			)
-			
+
 	except Exception as e:
 		st.error(e)
 
@@ -573,9 +553,9 @@ def basebot_prompt_design_memory():
 
 	st.title("Chatbot with Memory")
 
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
+	# Initialize chat history
+	if "chat_msg" not in st.session_state:
+		st.session_state.chat_msg = []
 
 	#include memory variables
 	memory = memory_variables()
@@ -596,15 +576,13 @@ def basebot_prompt_design_memory():
 			with st.chat_message("assistant"):
 				message_placeholder = st.empty()
 				full_response = ""
-				# Add the memory context after the st.session_state.prompt_template
+				# streaming function
 				for response in chat_completion_stream(st.session_state.prompt_template + memory_context, prompt):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
-				
 				#modify the code below by calling save_context function found in exercise 6
-				st.session_state.memory_variables.save_context({"input": "input"}, {"output": "output"})
-				
+				st.session_state.memory_variables.save_context({"input": prompt}, {"output": full_response})	
 			st.session_state.chat_msg.append(
 				{"role": "assistant", "content": full_response}
 			)
@@ -616,13 +594,12 @@ def basebot_prompt_design_memory():
 #Exercise 7 - Showing the capabilties of RAG
 def show_rag_results():
 	prompt = st.text_input("Enter your search query:")
-	if st.button("Search"):
-		if st.session_state.vs:
-			docs = st.session_state.vs.similarity_search(prompt)
-			resource = docs[0].page_content
-			source = docs[0].metadata
-			st.write("Resource", resource)
-			st.write("Source", source)
+	if st.session_state.vs:
+		docs = st.session_state.vs.similarity_search(prompt)
+		resource = docs[0].page_content
+		source = docs[0].metadata
+		st.write("Resource", resource)
+		st.write("Source", source)
 
 #Challenge 7 - Integrate RAG into the chatbot, add the RAG search results function to the chatbot where the prompt is the user input
 
@@ -640,13 +617,6 @@ def rag_results(prompt):
 #Challenge 7 - Integrate RAG into the chatbot, add the RAG search results function to the chatbot where the prompt is the user input
 #Hint add the RAG search results function with the memory variable
 def basebot_prompt_design_memory_rag():
-
-	st.title("Chatbot with Memory & RAG")
-
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
-
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
 		st.session_state.chat_msg = []
@@ -672,8 +642,8 @@ def basebot_prompt_design_memory_rag():
 				full_response = ""
 				# Call rag_results and pass the prompt variable into the function
 				rag = rag_results(prompt)
-				# add the rag variable after the memory context
-				for response in chat_completion_stream(st.session_state.prompt_template + memory_context , prompt):
+				# streaming function
+				for response in chat_completion_stream(st.session_state.prompt_template + memory_context + rag, prompt):
 					full_response += (response.choices[0].delta.content or "")
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
@@ -753,13 +723,6 @@ def initialise():
 #Challenge 9 - Collect your data from your chatbot
 #How to capture and save the data from the chatbot into the database
 def basebot_prompt_design_memory_rag_data():
-
-	st.title("Chatbot with Memory & RAG")
-
-	#clear messages and memory
-	if st.button("Clear Chat"):
-		clear_session_states()
-
 	# Initialize chat history
 	if "chat_msg" not in st.session_state:
 		st.session_state.chat_msg = []
@@ -791,8 +754,8 @@ def basebot_prompt_design_memory_rag_data():
 					message_placeholder.markdown(full_response + "▌")
 				message_placeholder.markdown(full_response)
 				st.session_state.memory_variables.save_context({"input": prompt}, {"output": full_response})
-				# modify and add the code below by calling collect function
-				#insert here hint collect()
+				# modify the code below by calling collect function
+				collect("My ID", full_response, prompt)
 			st.session_state.chat_msg.append(
 				{"role": "assistant", "content": full_response}
 			)
@@ -914,7 +877,7 @@ def agent_bot_with_more_tools():
 			model_name=st.secrets["default_model"], openai_api_key=return_api_key(), streaming=True
 		)
 		#Modify the code below to add more tools to the smart agent
-		tools = tools = [DuckDuckGoSearchRun(name="Internet Search")]
+		tools = [wiki_search, document_search, DuckDuckGoSearchRun(name="Internet Search")]
 		
 		chat_agent = ConversationalChatAgent.from_llm_and_tools(llm=llm, tools=tools)
 		executor = AgentExecutor.from_agent_and_tools(
@@ -932,7 +895,7 @@ def agent_bot_with_more_tools():
 				"intermediate_steps"
 			]
 
-#------------final exercise of the day ----------------------------------------------------------------------------------------------#
+
 def prototype_application():
 	#insert the code
 	st.write("Prototype Application")

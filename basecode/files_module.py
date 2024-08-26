@@ -182,7 +182,7 @@ def docs_uploader():
     
     # Upload the file using Streamlit
     uploaded_file = st.file_uploader("Choose a file", type=['docx', 'txt', 'pdf'])
-    meta = st.text_input("Please enter your document source (Default is MOE):", max_chars=20)
+    meta = st.text_input("Please enter your document source (Default is MSF):", max_chars=20)
 
     # Fetch all available subjects
     subjects = fetch_subjects_by_org(st.session_state.user["org_id"])
@@ -209,7 +209,7 @@ def docs_uploader():
     if uploaded_file:
         st.write("File:", uploaded_file.name, "uploaded!")
         if not meta:
-            meta = "MOE"
+            meta = "MSF"
 
         # Save to Database Button
         if st.button("Save to Database"):

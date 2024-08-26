@@ -10,7 +10,7 @@ __pycache__/
 *.log
 *.pyc
 *.db
-moe/
+msf/
 cache/
 .DS_Store
 *.avi
