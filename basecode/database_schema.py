@@ -270,6 +270,16 @@ def create_dbs():
         FOREIGN KEY(school_id) REFERENCES Schools(school_id)
     )
 	''')
+    
+    #creating a table for AOR Template upload 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS AOR_Template_Files (
+        filename TEXT, 
+        directory TEXT, 
+        category TEXT,
+        date TEXT
+        )
+	''')
 
     #need to create vectorstores for each app function - new table
 

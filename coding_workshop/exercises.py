@@ -896,9 +896,6 @@ def agent_bot_with_more_tools():
 			]
 
 
-def prototype_application():
-	#insert the code
-	st.write("Prototype Application")
-	pass
+	
 
 

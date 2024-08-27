@@ -27,6 +27,8 @@ from nocode_workshop.knowledge_bot import rag_bot
 import pandas as pd
 import os
 import coding_workshop.exercises as ex
+import aor.aoruoloadtemplate as aoruoloadtemplate
+import aor.aorgenerator as aorgenerator
 from basecode.database_module import (
 	manage_tables, 
 	delete_tables, 
@@ -316,22 +318,23 @@ def main():
 
 					sac.MenuItem('Coding Exercises', icon='person-fill-gear', children=[
 						sac.MenuItem("Python Recap", icon='filetype-py', disabled=is_function_disabled('Python Recap'), children=[
-							sac.MenuItem("Python (Ex 0-9 & Ch 1-3)", icon='filetype-py'),
-							sac.MenuItem("First Streamlit App", icon='filetype-py'),]),
-						sac.MenuItem("AI Chatbot Ex", icon='filetype-py', disabled=is_function_disabled('AI Chatbot Ex'), children=[
-							sac.MenuItem("1. Rule Based Chatbot", icon='filetype-py'),
-							sac.MenuItem("2. Open AI API Call", icon='filetype-py'),
-							sac.MenuItem("3. Chatbot", icon='filetype-py'),
-							sac.MenuItem("4. Chatbot with Streaming", icon='filetype-py'),
-							#sac.MenuItem("5a. Prompt Design Template", icon='filetype-py'),
-							sac.MenuItem("5. Chatbot with Prompt Design Template", icon='filetype-py'),
-							sac.MenuItem("6a. Memory", icon='filetype-py'),
-							sac.MenuItem("6b. Chatbot with Memory", icon='filetype-py'),
-							sac.MenuItem("7a. RAG", icon='filetype-py'),
-							sac.MenuItem("7b. Chatbot with Memory & RAG", icon='filetype-py'),
-							sac.MenuItem("8a. Database", icon='filetype-py'),
-							sac.MenuItem("9. Chatbot with Memory & RAG & recorded", icon='filetype-py'),
-						]),
+							sac.MenuItem("Upload the AOR Template", icon='filetype-py'),
+							#sac.MenuItem("Python (Ex 0-9 & Ch 1-3)", icon='filetype-py'),
+       						sac.MenuItem("AOR Generator", icon='filetype-py'),]),
+							#sac.MenuItem("AI Chatbot Ex", icon='filetype-py', disabled=is_function_disabled('AI Chatbot Ex'), children=[
+							#sac.MenuItem("1. Rule Based Chatbot", icon='filetype-py'),
+							#sac.MenuItem("2. Open AI API Call", icon='filetype-py'),
+							#sac.MenuItem("3. Chatbot", icon='filetype-py'),
+							#sac.MenuItem("4. Chatbot with Streaming", icon='filetype-py'),
+							##sac.MenuItem("5a. Prompt Design Template", icon='filetype-py'),
+							#sac.MenuItem("5. Chatbot with Prompt Design Template", icon='filetype-py'),
+							#sac.MenuItem("6a. Memory", icon='filetype-py'),
+							#sac.MenuItem("6b. Chatbot with Memory", icon='filetype-py'),
+							#sac.MenuItem("7a. RAG", icon='filetype-py'),
+							#sac.MenuItem("7b. Chatbot with Memory & RAG", icon='filetype-py'),
+							#sac.MenuItem("8a. Database", icon='filetype-py'),
+							#sac.MenuItem("9. Chatbot with Memory & RAG & recorded", icon='filetype-py'),
+						#]),
 					]),
 
 					sac.MenuItem('Knowledge Base Tools', icon='book', children=[
@@ -503,10 +506,16 @@ def main():
 				ex.append_form_data_to_list()
 				pass
 
-		elif st.session_state.option == 'First Streamlit App':
+		elif st.session_state.option == 'Upload the AOR Template':
 			# Code for Starting Bot
-			st.subheader(f":green[{st.session_state.option}]")
-			ex.streamlit_app()
+			aoruoloadtemplate.prototype_application()
+			pass
+
+		elif st.session_state.option == 'AOR Generator':
+			# Code for Starting Bot
+			#st.subheader(f":green[{st.session_state.option}]")
+			#ex.streamlit_app()
+			aorgenerator.prototype_application()
 			pass
 
 		elif st.session_state.option == '1. Rule Based Chatbot':
@@ -565,6 +574,11 @@ def main():
 			# call the openai basebot with memory and RAG function and recorded data here
 			ex.prompt_design()
 			ex.basebot_prompt_design_memory_rag_data()
+			pass
+		elif st.session_state.option == '10. AOR Request':
+			# call the document search
+			ex.prompt_design()
+			ex.document_search('aor')
 			pass
 
 		#========================ZERO CODE workshop code below do not modify========================#
