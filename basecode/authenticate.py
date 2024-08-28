@@ -116,3 +116,6 @@ def return_api_key():
                     return st.secrets["openai_key"]
             else:
                 return st.secrets["openai_key"] 
+
+def return_base_url():
+    return "http://litellm.launchpad.tech.gov.sg"

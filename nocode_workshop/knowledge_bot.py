@@ -1,5 +1,8 @@
 import streamlit as st
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 from basecode.users_module import vectorstore_selection_interface
 from langchain.memory import ConversationBufferWindowMemory
 from datetime import datetime
@@ -66,8 +69,9 @@ else:
 
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 # Function to encode the image
@@ -328,7 +332,7 @@ def rag_kb():
 						openai.api_key = return_api_key()
 						os.environ["OPENAI_API_KEY"] = return_api_key()
 						from llama_index.llms.openai import OpenAI
-						llm3 = OpenAI(temperature=0.1, model="gpt-3.5-turbo-1106")
+						llm3 = OpenAI(temperature=0.1, model="gpt-4o-mini")
 
 						service_context = ServiceContext.from_defaults(
 							llm=llm3, 

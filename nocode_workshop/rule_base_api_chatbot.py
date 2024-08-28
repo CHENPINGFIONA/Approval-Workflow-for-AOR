@@ -1,7 +1,10 @@
 import openai
 from openai import OpenAI
 import streamlit as st
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 import google.generativeai as genai
 import os
 import pandas as pd
@@ -11,8 +14,9 @@ import cohere
 
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 # Create or check for the 'database' directory in the current working directory
@@ -39,7 +43,7 @@ def call_api():
 	st.subheader("Calling the LLM API")
 	prompt_design = st.text_input("Enter your the prompt design for the API call:", value="You are a helpful assistant.")
 	prompt_query = st.text_input("Enter your user input:", value="Tell me about Singapore in the 1970s in 50 words.")
-	select_model = st.selectbox("Select a model", ["gpt-3.5-turbo", "gpt-4-1106-preview", "cohere", "gemini-pro"])	
+	select_model = st.selectbox("Select a model", ["gpt-4o-mini","gpt-3.5-turbo", "gpt-4-1106-preview", "cohere", "gemini-pro"])	
 	if st.button("Call the API"):
 		if prompt_design and prompt_query:
 			if select_model == "cohere":

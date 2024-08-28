@@ -2,7 +2,10 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import sqlite3
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 from datetime import datetime
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
@@ -20,6 +23,7 @@ from Markdown2docx import Markdown2docx
 client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 config = configparser.ConfigParser()

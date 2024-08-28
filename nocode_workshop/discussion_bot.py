@@ -2,7 +2,10 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import sqlite3
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.chat_models import ChatOpenAI
 import configparser
@@ -10,8 +13,9 @@ import os
 import pandas as pd
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 config = configparser.ConfigParser()

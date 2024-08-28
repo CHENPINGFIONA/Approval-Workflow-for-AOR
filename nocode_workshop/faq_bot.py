@@ -2,15 +2,19 @@ import streamlit as st
 import openai
 from openai import OpenAI
 import sqlite3
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 import configparser
 import os
 import pandas as pd
 import cohere
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 config = configparser.ConfigParser()
@@ -124,7 +128,7 @@ def chat_completion(prompt, faq):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
 	response = client.chat.completions.create(
-		model="gpt-3.5-turbo-1106",
+		model="gpt-4o-mini",
 		messages=[
 			{"role": "system", "content":faq},
 			{"role": "user", "content": prompt},

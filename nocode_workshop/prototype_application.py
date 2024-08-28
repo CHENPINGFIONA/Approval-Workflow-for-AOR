@@ -6,7 +6,10 @@ from basecode.main_bot import insert_into_data_table
 import openai
 from openai import OpenAI
 import os
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 from datetime import datetime
 from langchain.memory import ConversationSummaryBufferMemory
 from langchain.memory import ConversationBufferWindowMemory
@@ -17,8 +20,9 @@ import google.generativeai as genai
 import ast
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 class ConfigHandler:
@@ -163,7 +167,7 @@ def form_template(source, resource):
 
 def my_first_app(bot_name):
 	if "prototype_model" not in st.session_state:
-		st.session_state.prototype_model = "gpt-3.5-turbo"
+		st.session_state.prototype_model = "gpt-4o-mini"
 	init_settings()
 	st.subheader("Protyping a chatbot")
 	with st.expander("Prototype Settings"):
@@ -185,7 +189,7 @@ def clear_session_states():
 def my_first_app_advance(bot_name):
 	init_settings()
 	if "prototype_model" not in st.session_state:
-		st.session_state.prototype_model = "gpt-3.5-turbo"
+		st.session_state.prototype_model = "gpt-4o-mini"
 	st.subheader("Protyping a chatbot")
 	with st.expander("Prototype Settings"):
 		st.write("Current Prompt Template: ", st.session_state.my_app_template_advance)
@@ -215,10 +219,10 @@ def prototype_settings():
 	with tab3:
 		st.subheader("Chatbot Parameter Settings")
 		if "prototype_model" not in st.session_state:
-			st.session_state.prototype_model = "gpt-3.5-turbo"
+			st.session_state.prototype_model = "gpt-4o-mini"
 		
 		st.write("Current Model: ",st.session_state.prototype_model)
-		model_settings = st.selectbox("Select a model", ["gpt-3.5-turbo", "gpt-4-1106-preview", "cohere", "gemini-pro"])
+		model_settings = st.selectbox("Select a model", ["gpt-4o-mini","gpt-3.5-turbo", "gpt-4-1106-preview", "cohere", "gemini-pro"])
 		if st.button("Update Model"):
 			st.session_state.prototype_model = model_settings
 		chatbot_settings()

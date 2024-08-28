@@ -1,6 +1,9 @@
 import streamlit as st
 from openai import OpenAI
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 import sqlite3
 import os
 import pandas as pd
@@ -8,7 +11,6 @@ from langchain.memory import ConversationBufferWindowMemory
 from datetime import datetime
 import streamlit as st
 import openai
-from basecode.authenticate import return_api_key
 from langchain.tools import YouTubeSearchTool
 from basecode.kb_module import display_vectorstores
 from basecode.users_module import vectorstore_selection_interface
@@ -39,6 +41,7 @@ else:
 client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 #exercise 0 - hello world python 
 def hello_world():
@@ -318,7 +321,7 @@ def api_call_exercise():
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
 	st.title("Api Call Exercise")
-	MODEL = "gpt-3.5-turbo"
+	MODEL = "gpt-4o-mini"
 	with st.status("Calling the OpenAI API..."):
 		response = client.chat.completions.create(
 			model=MODEL,
@@ -361,7 +364,7 @@ def api_call(p_design, p_query):
 	openai.api_key = return_api_key()
 	os.environ["OPENAI_API_KEY"] = return_api_key()
 	
-	MODEL = "gpt-3.5-turbo"
+	MODEL = "gpt-4o-mini"
 	with st.status("Calling the OpenAI API..."):
 		response = client.chat.completions.create(
 			model=MODEL,
@@ -386,7 +389,7 @@ def api_call(p_design, p_query):
 
 #Exercise 3 is to simplify the api call function and create the chat completion function
 def chat_completion(prompt_design, prompt):
-	MODEL = "gpt-3.5-turbo"
+	MODEL = "gpt-4o-mini"
 	response = client.chat.completions.create(
 		model=MODEL,
 		messages=[
@@ -433,7 +436,7 @@ def ai_chatbot():
 # Exercise 4 - Customising the chat completion with streaming
 def chat_completion_stream(prompt_design, prompt):
 	openai.api_key = return_api_key()
-	MODEL = "gpt-3.5-turbo"
+	MODEL = "gpt-4o-mini"
 	response = client.chat.completions.create(
 		model=MODEL,
 		messages=[

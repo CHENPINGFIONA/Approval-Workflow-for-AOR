@@ -1,5 +1,8 @@
 import streamlit as st
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 from basecode.users_module import vectorstore_selection_interface
 from langchain.memory import ConversationBufferWindowMemory
 #from st_audiorec import st_audiorec
@@ -25,8 +28,9 @@ if not os.path.exists(AUDIO_DIRECTORY):
 openai.api_key = return_api_key()
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 # Function to encode the image

@@ -1,7 +1,10 @@
 import openai
 from openai import OpenAI
 import streamlit as st
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 import os
 import streamlit_antd_components as sac
 import configparser
@@ -11,8 +14,9 @@ import cohere
 import google.generativeai as genai
 
 client = OpenAI(
-	# defaults to os.environ.get("OPENAI_API_KEY")
-	api_key=return_api_key(),
+    # defaults to os.environ.get("OPENAI_API_KEY")
+    api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 class ConfigHandler:
@@ -77,7 +81,7 @@ def prompt_designs_llm():
 		st.subheader(options)
 		prompt_design = st.text_area("Enter your the prompt design for the API call:", value=selected_prompt_design, max_chars=4000, height=300)
 		prompt_query = st.text_area("Enter your user input:", value="I want to know about AI in 100 words", max_chars=4000, height=300)
-		select_model = st.selectbox("Select a model", ["gpt-3.5-turbo", "gpt-4-1106-preview", "cohere", "gemini-pro"])	
+		select_model = st.selectbox("Select a model", ["gpt-4o-mini","gpt-3.5-turbo", "gpt-4-1106-preview", "cohere", "gemini-pro"])	
 		if st.button("Submit Prompt Design and Query to LLM"):
 			if prompt_design and prompt_query:
 				# Replace the placeholder with the actual user input

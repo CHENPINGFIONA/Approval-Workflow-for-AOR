@@ -1,7 +1,10 @@
 import streamlit as st
 from openai import OpenAI
 from plantuml import PlantUML
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 from streamlit.components.v1 import html
 import os
 import re
@@ -9,6 +12,7 @@ import re
 client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 # Create or check for the 'database' directory in the current working directory

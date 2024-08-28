@@ -1,5 +1,8 @@
 import streamlit as st
-from basecode.authenticate import return_api_key
+from basecode.authenticate import (
+    return_api_key,
+    return_base_url
+)
 import openai
 from openai import OpenAI
 import json
@@ -11,6 +14,7 @@ openai.api_key = return_api_key()
 client = OpenAI(
     # defaults to os.environ.get("OPENAI_API_KEY")
     api_key=return_api_key(),
+    base_url=return_base_url(),
 )
 
 #######################################
