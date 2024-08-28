@@ -3,6 +3,7 @@ secrets.toml
 *.csv
 References/
 database/
+uploaded_files/
 database.zip
 audio_files/
 exports/
