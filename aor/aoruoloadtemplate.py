@@ -22,7 +22,7 @@ def prototype_application():
     st.title("Upload the AOR Template")
     
     # Category input
-    category = st.text_input("Template Category:")
+    category = st.text_input("AOR Template Name:")
 
     # File uploader
     uploaded_files = st.file_uploader("Choose files", accept_multiple_files=True)
@@ -33,32 +33,18 @@ def prototype_application():
                 file_path = os.path.join(UPLOAD_DIRECTORY, file.name)
                 with open(file_path, "wb") as f:
                     f.write(file.getbuffer())
+                    save_to_db(file.name,file_path,category)
                 st.success(f"File {file.name} has been uploaded successfully.")
         elif not category:
             st.warning("Please enter a category before uploading.")
         else:
             st.warning("Please select files to upload.")
+        
+        
 
-    # Display uploaded files
-    if uploaded_files:
-        st.write("Uploaded files:")
-        for file in uploaded_files:
-            st.write(file.name)
+    
 
-    # Save button
-    if st.button("Save to Database"):
-        if uploaded_files and category:
-            for file in uploaded_files:
-                filename = file.name
-                directory = os.path.abspath(UPLOAD_DIRECTORY)
-                collect(filename,directory,category)
-            st.success("Files information saved to database successfully.")
-        elif not category:
-            st.warning("Please enter a category before saving.")
-        elif not uploaded_files:
-            st.warning("Please upload files before saving.")
-
-def collect(filename, directory, category):
+def save_to_db(filename, directory, category):
 	# collect data from template
 	conn = sqlite3.connect(WORKING_DATABASE)
 	cursor = conn.cursor()

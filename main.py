@@ -313,14 +313,16 @@ def main():
 				st.session_state.option = sac.menu([
 					sac.MenuItem('Home', icon='house', children=[
 						sac.MenuItem(return_function_name('Personal Dashboard'), icon='person-circle', disabled=is_function_disabled('Personal Dashboard')),
-						#sac.MenuItem('Class Dashboard', icon='clipboard-data', disabled=is_function_disabled('Class Dashboard')),
+						sac.MenuItem("Upload the AOR Template", icon='filetype-py'),
+      					sac.MenuItem("AOR Generator", icon='filetype-py'),
+           				sac.MenuItem("3. Chatbot", icon='filetype-py'),
 					]),
 
-					sac.MenuItem('Coding Exercises', icon='person-fill-gear', children=[
-						sac.MenuItem("Python Recap", icon='filetype-py', disabled=is_function_disabled('Python Recap'), children=[
-							sac.MenuItem("Upload the AOR Template", icon='filetype-py'),
+					#sac.MenuItem('Coding Exercises', icon='person-fill-gear', children=[
+						#sac.MenuItem("Python Recap", icon='filetype-py', disabled=is_function_disabled('Python Recap'), children=[
+							#sac.MenuItem("Upload the AOR Template", icon='filetype-py'),
 							#sac.MenuItem("Python (Ex 0-9 & Ch 1-3)", icon='filetype-py'),
-       						sac.MenuItem("AOR Generator", icon='filetype-py'),]),
+       						#sac.MenuItem("AOR Generator", icon='filetype-py'),
 							#sac.MenuItem("AI Chatbot Ex", icon='filetype-py', disabled=is_function_disabled('AI Chatbot Ex'), children=[
 							#sac.MenuItem("1. Rule Based Chatbot", icon='filetype-py'),
 							#sac.MenuItem("2. Open AI API Call", icon='filetype-py'),
@@ -335,29 +337,29 @@ def main():
 							#sac.MenuItem("8a. Database", icon='filetype-py'),
 							#sac.MenuItem("9. Chatbot with Memory & RAG & recorded", icon='filetype-py'),
 						#]),
-					]),
+					#]),
 
-					sac.MenuItem('Knowledge Base Tools', icon='book', children=[
-						sac.MenuItem(return_function_name('Files management', 'Files Management'), icon='file-arrow-up', disabled=is_function_disabled('Files management')),
-						sac.MenuItem(return_function_name('KB management', 'Knowledge Base Editor'), icon='database-fill-up',disabled=is_function_disabled('KB management')),
-					]),
+					#sac.MenuItem('Knowledge Base Tools', icon='book', children=[
+						#sac.MenuItem(return_function_name('Files management', 'Files Management'), icon='file-arrow-up', disabled=is_function_disabled('Files management')),
+						#sac.MenuItem(return_function_name('KB management', 'Knowledge Base Editor'), icon='database-fill-up',disabled=is_function_disabled('KB management')),
+					#]),
 
-					sac.MenuItem('GenAI Features & Apps', icon='book', children=[
-						sac.MenuItem(return_function_name('Image Generator','Image Analyser and Generator'), icon='camera', disabled=is_function_disabled('Image Generator')),
-						sac.MenuItem(return_function_name('Voice','Voice Analyser and Generator'), icon='mic',disabled=is_function_disabled('Voice')),
-					]),	
+					#sac.MenuItem('GenAI Features & Apps', icon='book', children=[
+						#sac.MenuItem(return_function_name('Image Generator','Image Analyser and Generator'), icon='camera', disabled=is_function_disabled('Image Generator')),
+						#sac.MenuItem(return_function_name('Voice','Voice Analyser and Generator'), icon='mic',disabled=is_function_disabled('Voice')),
+					#]),	
 
-					sac.MenuItem('Types of ChatBots', icon='person-fill-gear', children=[
+					#sac.MenuItem('Types of ChatBots', icon='person-fill-gear', children=[
 						#sac.MenuItem(return_function_name('Discussion Chatbot'), icon='people', disabled=is_function_disabled('Discussion Chatbot')),
-						sac.MenuItem(return_function_name('Rule Based Chatbot'), icon='chat-dots', disabled=is_function_disabled('Rule Based Chatbot')),
-						sac.MenuItem(return_function_name('Open AI API Call'), icon='chat-dots', disabled=is_function_disabled('Open AI API Call')),
-						sac.MenuItem(return_function_name('GenAI Chatbot'), icon='chat-dots', disabled=is_function_disabled('GenAI Chatbot')),
-						sac.MenuItem(return_function_name('Agent Chatbot'), icon='chat-dots', disabled=is_function_disabled('Agent Chatbot')),
-						sac.MenuItem(return_function_name('Chatbot Management', 'Bot & Prompt Management'), icon='wrench', disabled=is_function_disabled('Chatbot Management')),
-						sac.MenuItem(return_function_name('Prototype Application'), icon='star-fill', disabled=is_function_disabled('Prototype Application')),
-						sac.MenuItem(return_function_name('Prototype Settings'), icon='wrench', disabled=is_function_disabled('Prototype Settings')),
+						#sac.MenuItem(return_function_name('Rule Based Chatbot'), icon='chat-dots', disabled=is_function_disabled('Rule Based Chatbot')),
+						#sac.MenuItem(return_function_name('Open AI API Call'), icon='chat-dots', disabled=is_function_disabled('Open AI API Call')),
+						#sac.MenuItem(return_function_name('GenAI Chatbot'), icon='chat-dots', disabled=is_function_disabled('GenAI Chatbot')),
+						#sac.MenuItem(return_function_name('Agent Chatbot'), icon='chat-dots', disabled=is_function_disabled('Agent Chatbot')),
+						#sac.MenuItem(return_function_name('Chatbot Management', 'Bot & Prompt Management'), icon='wrench', disabled=is_function_disabled('Chatbot Management')),
+						#sac.MenuItem(return_function_name('Prototype Application'), icon='star-fill', disabled=is_function_disabled('Prototype Application')),
+						#sac.MenuItem(return_function_name('Prototype Settings'), icon='wrench', disabled=is_function_disabled('Prototype Settings')),
 						
-					]),
+					#]),
 					
 					sac.MenuItem('Organisation Tools', icon='buildings', children=[
 						sac.MenuItem(return_function_name( 'Organisation Management','Org Management'), icon='building-gear', disabled=is_function_disabled('Organisation Management')),

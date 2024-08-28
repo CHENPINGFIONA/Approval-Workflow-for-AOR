@@ -281,6 +281,16 @@ def create_dbs():
         )
 	''')
 
+    #creating a table for AOR  submit 
+    cursor.execute('''
+    CREATE TABLE IF NOT EXISTS AOR (
+        title TEXT, 
+        aor TEXT, 
+        submitted_by TEXT,
+        submitted_on TEXT
+        )
+	''')
+
     #need to create vectorstores for each app function - new table
 
 
