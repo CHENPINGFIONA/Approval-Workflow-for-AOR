@@ -275,10 +275,10 @@ def create_dbs():
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS AOR_Template_Files (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
-        filename TEXT, 
+        name TEXT,
         directory TEXT, 
-        template_name TEXT,
-        date TEXT
+        uploaded_by TEXT,
+        uploaded_on TEXT
         )
 	''')
 

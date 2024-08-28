@@ -30,7 +30,7 @@ else:
 def generate_aor(selected_path):   
     # This is a placeholder function. Replace with your actual text generation logic
     
-    with open(selected_path,"r") as file:
+    with open(selected_path,"r", encoding='utf-8',errors='ignore') as file:
         file_contents=file.read()
     response = client.chat.completions.create(
     	model="gpt-4o-mini",  
@@ -51,7 +51,7 @@ def prototype_application():
 
 	# Dropdown for item selection
 	templates=get_templates()
-	name_to_path={template[3]:template[2] for template in templates}
+	name_to_path={template[2]:template[1] for template in templates}
  
 	selected_name=st.selectbox("Select a Template:",list(name_to_path.keys()))
 	selected_path=name_to_path[selected_name]
@@ -132,7 +132,7 @@ def get_templates():
 	cursor = conn.cursor()
 	
 	# Fetch only the password for the given username
-	cursor.execute('SELECT * FROM AOR_Template_Files ORDER BY date DESC LIMIT 3')
+	cursor.execute('SELECT * FROM AOR_Template_Files ORDER BY uploaded_on DESC LIMIT 3')
 	result = cursor.fetchall()
 	conn.close()
 	

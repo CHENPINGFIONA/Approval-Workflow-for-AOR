@@ -1,7 +1,6 @@
 import streamlit as st
 import os
 import sqlite3
-from pathlib import Path
 from datetime import datetime
 
 cwd = os.getcwd()
@@ -25,31 +24,27 @@ def prototype_application():
     template_name = st.text_input("AOR Template Name:")
 
     # File uploader
-    uploaded_files = st.file_uploader("Choose files", accept_multiple_files=False)
+    uploaded_file = st.file_uploader("Upload a file")
 
     if st.button("Upload"):
-        if uploaded_files and template_name:
-            for file in uploaded_files:
-                file_path = os.path.join(UPLOAD_DIRECTORY, file.name)
-                with open(file_path, "wb") as f:
-                    f.write(file.getbuffer())
-                    save_to_db(file.name,file_path,template_name)
-                st.success(f"File {file.name} has been uploaded successfully.")
-        elif not template_name:
-            st.warning("Please enter a template name before uploading.")
-        else:
-            st.warning("Please select files to upload.")
-        
+        file_path = os.path.join(UPLOAD_DIRECTORY, uploaded_file.name)
+        with open(file_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+            save_to_db(file_path,template_name)
+            st.success(f"File {uploaded_file.name} has been uploaded successfully.")
+    elif not template_name:
+        st.warning("Please enter a template name before uploading.")
+    else:
+        st.warning("Please select file to upload.")
         
 
     
 
-def save_to_db(filename, directory, template_name):
+def save_to_db( directory, template_name):
 	# collect data from template
 	conn = sqlite3.connect(WORKING_DATABASE)
 	cursor = conn.cursor()
-	now = datetime.now()  # Using ISO format for date
-	cursor.execute("INSERT INTO AOR_Template_Files (filename,directory,template_name,date) VALUES (?, ?, ?,?)", (filename, directory, template_name, datetime.now()))
+	cursor.execute("INSERT INTO AOR_Template_Files (name,directory,uploaded_by,uploaded_on) VALUES (?, ?,?,?)", ( directory, template_name, st.session_state.user["username"],datetime.now()))
 	conn.commit()
 	conn.close()
  
