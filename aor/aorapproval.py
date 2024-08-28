@@ -29,17 +29,34 @@ def prototype_application():
         
 
     
-
 def showAOR():
-	# collect data from template
-	# Connect to the specified database
-	conn = sqlite3.connect(WORKING_DATABASE)
-	cursor = conn.cursor()
+    # Connect to the specified database
+    conn = sqlite3.connect(WORKING_DATABASE)
+    cursor = conn.cursor()
 
-	# Fetch all data from data_table
-	cursor.execute("SELECT title, aor, submitted_by, submitted_on FROM AOR")
-	rows = cursor.fetchall()
-	column_names = [description[0] for description in cursor.description]
-	df = pd.DataFrame(rows, columns=column_names)
-	st.dataframe(df)
-	conn.close()
+    # Fetch all data from the AOR table
+    cursor.execute("SELECT title, aor, submitted_by, submitted_on FROM AOR")
+    rows = cursor.fetchall()
+    column_names = [description[0] for description in cursor.description]
+
+    # Create a DataFrame from the fetched data
+    df = pd.DataFrame(rows, columns=column_names)
+
+    # Create hyperlinks for the "title" column
+    df['title'] = df['title'].apply(lambda x: f'<a href="#" class="hyperlink">{x}</a>')
+
+    # Display the table with hyperlinks using st.markdown
+    st.markdown(df.to_html(escape=False, index=False), unsafe_allow_html=True)
+
+    # Allow users to select a row (by index) using multiselect
+    selected_row = st.multiselect("Select an AOR", df.index)
+
+    # Display the corresponding AOR content based on the selected row
+    if selected_row:
+        selected_index = selected_row[0]  # Assume selecting one row at a time
+        selected_aor = df.at[selected_index, "aor"]
+        st.text_area("Selected AOR Content", selected_aor)
+
+    # Close the connection
+    conn.close()
+    
