@@ -27,20 +27,17 @@ else:
 	WORKING_DATABASE= st.secrets["sql_ext_path"]
 
 
-def generate_aor(selected_item):   
+def generate_aor(selected_path):   
     # This is a placeholder function. Replace with your actual text generation logic
-    texts = {
-        "Template 1": "This is the generated text for Template 1.",
-        "Template 2": "Here's some text generated for Template 2.",
-        "Template 3": "And this is what we generated for Template 3."
-    }
     
+    with open(selected_path,"r") as file:
+        file_contents=file.read()
     response = client.chat.completions.create(
     	model="gpt-4o-mini",  
     	messages=[
 			{
 			"role": "user",
-            "content": texts.get(selected_item, "No text available for this Template."),
+            "content": "Please generate a AOR based on the template given \n "+file_contents,
 			}
     	])
 	
@@ -53,11 +50,15 @@ def prototype_application():
 	st.title("AOR Generator")
 
 	# Dropdown for item selection
-	selected_item = st.selectbox("Select a Template:", ["Template 1", "Template 2", "Template 3"])
-
+	templates=get_templates()
+	name_to_path={template[3]:template[2] for template in templates}
+ 
+	selected_name=st.selectbox("Select a Template:",list(name_to_path.keys()))
+	selected_path=name_to_path[selected_name]
+ 
 	# Generate button
 	if st.button("Generate"):
-		generated_aor = generate_aor(selected_item)
+		generated_aor = generate_aor(selected_path)
 		st.session_state.text_area_value = generated_aor
 
 	title = st.text_input("AOR Title:")
@@ -121,7 +122,18 @@ def save_to_db(title,generated_aor):
 	conn = sqlite3.connect(WORKING_DATABASE)
 	cursor = conn.cursor()
 	now = datetime.now()  # Using ISO format for date
-	cursor.execute("INSERT INTO AOR VALUES (?, ?, ?,?)", (title, generated_aor, st.session_state.user["username"], datetime.now()))
+	cursor.execute("INSERT INTO AOR (title,aor,submitted_by,submitted_on) VALUES (?, ?, ?,?)", (title, generated_aor, st.session_state.user["username"], datetime.now()))
 	conn.commit()
 	conn.close()
  
+ 
+def get_templates():
+	conn = sqlite3.connect(WORKING_DATABASE)
+	cursor = conn.cursor()
+	
+	# Fetch only the password for the given username
+	cursor.execute('SELECT * FROM AOR_Template_Files ORDER BY date DESC LIMIT 3')
+	result = cursor.fetchall()
+	conn.close()
+	
+	return result

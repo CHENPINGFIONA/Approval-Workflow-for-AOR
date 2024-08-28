@@ -274,9 +274,10 @@ def create_dbs():
     #creating a table for AOR Template upload 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS AOR_Template_Files (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         filename TEXT, 
         directory TEXT, 
-        category TEXT,
+        template_name TEXT,
         date TEXT
         )
 	''')
@@ -284,6 +285,7 @@ def create_dbs():
     #creating a table for AOR  submit 
     cursor.execute('''
     CREATE TABLE IF NOT EXISTS AOR (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
         title TEXT, 
         aor TEXT, 
         submitted_by TEXT,

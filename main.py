@@ -29,6 +29,8 @@ import os
 import coding_workshop.exercises as ex
 import aor.aoruoloadtemplate as aoruoloadtemplate
 import aor.aorgenerator as aorgenerator
+import aor.aorapproval as aorapproval
+
 from basecode.database_module import (
 	manage_tables, 
 	delete_tables, 
@@ -315,7 +317,7 @@ def main():
 						sac.MenuItem(return_function_name('Personal Dashboard'), icon='person-circle', disabled=is_function_disabled('Personal Dashboard')),
 						sac.MenuItem("Upload the AOR Template", icon='filetype-py'),
       					sac.MenuItem("AOR Generator", icon='filetype-py'),
-           				sac.MenuItem("3. Chatbot", icon='filetype-py'),
+           				sac.MenuItem("AOR Approval", icon='filetype-py'),
 					]),
 
 					#sac.MenuItem('Coding Exercises', icon='person-fill-gear', children=[
@@ -520,6 +522,9 @@ def main():
 			aorgenerator.prototype_application()
 			pass
 
+		elif st.session_state.option == 'AOR Approval':
+			aorapproval.prototype_application()
+			pass
 		elif st.session_state.option == '1. Rule Based Chatbot':
 			# Code for Rule Based Chatbot Exercise
 			# Call the rule based chatbot exercise function here
