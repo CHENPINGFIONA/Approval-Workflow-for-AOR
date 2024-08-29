@@ -393,7 +393,7 @@ def main():
 			aordashboard.prototype_application()
 		
 		#Personal Dashboard
-		elif st.session_state.option == 'Personal Dashboard':
+		elif st.session_state.option == 'Dashboard':
 			aordashboard.prototype_application()
 			#st.subheader(f":green[{st.session_state.option}]")
 			#if st.session_state.user['profile_id'] == SA:
