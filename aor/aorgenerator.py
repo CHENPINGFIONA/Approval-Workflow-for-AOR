@@ -1,5 +1,6 @@
 import streamlit as st
 import os
+from fpdf import FPDF
 import openai
 from langchain.memory import ConversationBufferMemory
 from langchain.memory.chat_message_histories import StreamlitChatMessageHistory
@@ -64,13 +65,20 @@ def prototype_application():
 	title = st.text_input("AOR Title:")
 	# Text area
 	text_area = st.text_area("Generated Text:", value=st.session_state.get('text_area_value', ''), height=500)
-	
- 	# Submit button
-	if st.button("Submit"):
-		save_to_db(title,text_area)
+
+  
+	# Submit button
+	if st.button("Submit",disabled=not title):
+		save_aor_to_db(title, text_area)
 		st.success(f"AOR {title} has been saved successfully.")
+		
     
-    
+    # Save as template  button
+	if st.button("Save as Template",disabled=not title):
+		file_path=save_to_file(title,text_area)
+		save_template_to_db(file_path,title)
+		st.success(f"Template {title} has been saved successfully.")
+     
 	aor_chatbot(text_area)
  
     
@@ -117,7 +125,7 @@ def chat_completion(prompt_design, prompt):
 	return response.choices[0].message.content.strip()
   
 
-def save_to_db(title,generated_aor):
+def save_aor_to_db(title,generated_aor):
 	# collect data from template
 	conn = sqlite3.connect(WORKING_DATABASE)
 	cursor = conn.cursor()
@@ -126,6 +134,14 @@ def save_to_db(title,generated_aor):
 	conn.commit()
 	conn.close()
  
+ 
+def save_template_to_db(directory, template_name):
+	# collect data from template
+	conn = sqlite3.connect(WORKING_DATABASE)
+	cursor = conn.cursor()
+	cursor.execute("INSERT INTO AOR_Template_Files (name,directory,uploaded_by,uploaded_on) VALUES (?, ?,?,?)", ( directory, template_name, st.session_state.user["username"],datetime.now()))
+	conn.commit()
+	conn.close()
  
 def get_templates():
 	conn = sqlite3.connect(WORKING_DATABASE)
@@ -137,3 +153,22 @@ def get_templates():
 	conn.close()
 	
 	return result
+
+
+def save_to_file(filename,text):
+    pdf = FPDF()
+    pdf.add_page()
+    pdf.set_font("Arial", size=12)
+    
+    # Add text to PDF, splitting long text into multiple lines
+    for line in text.split('\n'):
+        encoded_line = line.encode('latin-1', 'ignore').decode('latin-1')  # Ignore unsupported characters
+        pdf.multi_cell(200, 10, txt=encoded_line)
+        
+    UPLOAD_DIRECTORY = os.path.join(cwd, "uploaded_files")
+    if not os.path.exists(UPLOAD_DIRECTORY):
+        os.makedirs(UPLOAD_DIRECTORY)
+    # Save the PDF
+    file_path = os.path.join(UPLOAD_DIRECTORY, filename+".pdf")
+    pdf.output(file_path)
+    return file_path
