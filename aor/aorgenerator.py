@@ -37,7 +37,7 @@ def generate_aor(selected_path):
     	messages=[
 			{
 			"role": "user",
-            "content": "Please generate a AOR based on the template given \n "+file_contents,
+            "content": "Please generate a AOR with minimum 1000 characters based on the template given \n "+file_contents,
 			}
     	])
 	

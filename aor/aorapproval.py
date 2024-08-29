@@ -43,19 +43,21 @@ def showAOR():
     df = pd.DataFrame(rows, columns=column_names)
 
     # Create hyperlinks for the "title" column
-    df['title'] = df['title'].apply(lambda x: f'<a href="#" class="hyperlink">{x}</a>')
+    #df['title'] = df['title'].apply(lambda x: f'<a href="#" class="hyperlink">{x}</a>')
 
     # Display the table with hyperlinks using st.markdown
     st.markdown(df.to_html(escape=False, index=False), unsafe_allow_html=True)
 
-    # Allow users to select a row (by index) using multiselect
-    selected_row = st.multiselect("Select an AOR", df.index)
+    # Create a list of titles to display in the selectbox
+    titles = df['title'].tolist()
 
-    # Display the corresponding AOR content based on the selected row
-    if selected_row:
-        selected_index = selected_row[0]  # Assume selecting one row at a time
-        selected_aor = df.at[selected_index, "aor"]
-        st.text_area("Selected AOR Content", selected_aor)
+    # Use st.selectbox for single selection
+    selected_title = st.selectbox("Select an AOR", titles)
+
+    # Find the row corresponding to the selected title and display the AOR content
+    if selected_title:
+        selected_aor = df.loc[df['title'] == selected_title, 'aor'].values[0]
+        st.text_area("Selected AOR Content", selected_aor, height=500, disabled=True)          
 
     # Close the connection
     conn.close()

@@ -30,6 +30,7 @@ import coding_workshop.exercises as ex
 import aor.aoruoloadtemplate as aoruoloadtemplate
 import aor.aorgenerator as aorgenerator
 import aor.aorapproval as aorapproval
+import aor.aordashboard as aordashboard
 
 from basecode.database_module import (
 	manage_tables, 
@@ -389,36 +390,20 @@ def main():
 					with col2:
 						pass
 		elif st.session_state.option == 'Home':
-			col1, col2 = st.columns([3,1])
-			with col1:
-				st.subheader("Acknowledgement on the use of Generative AI with Large Language Models")
-				initialize_session_state(MENU_FUNCS, True)
-				st.write(ACK)
-				ack = st.checkbox("I acknowledge the above information")
-				if ack:
-					st.session_state.acknowledgement = True
-					set_function_access_for_user(st.session_state.user['id'])
-					st.session_state.start = 1
-					st.rerun()
-				else:
-					st.warning("Please acknowledge the above information before you proceed")
-					initialize_session_state(MENU_FUNCS, True)
-					st.stop()
-				pass
-			with col2:
-				pass
+			aordashboard.prototype_application()
 		
 		#Personal Dashboard
 		elif st.session_state.option == 'Personal Dashboard':
-			st.subheader(f":green[{st.session_state.option}]")
-			if st.session_state.user['profile_id'] == SA:
-				sch_id, msg = process_user_profile(st.session_state.user["profile_id"])
-				st.write(msg)
-				download_data_table_csv(st.session_state.user["id"], sch_id, st.session_state.user["profile_id"])
-			else:
-				download_data_table_csv(st.session_state.user["id"], st.session_state.user["school_id"], st.session_state.user["profile_id"])
-			display_vectorstores()
-			vectorstore_selection_interface(st.session_state.user['id'])
+			aordashboard.prototype_application()
+			#st.subheader(f":green[{st.session_state.option}]")
+			#if st.session_state.user['profile_id'] == SA:
+				#sch_id, msg = process_user_profile(st.session_state.user["profile_id"])
+				#st.write(msg)
+				#download_data_table_csv(st.session_state.user["id"], sch_id, st.session_state.user["profile_id"])
+			#else:
+				#download_data_table_csv(st.session_state.user["id"], st.session_state.user["school_id"], st.session_state.user["profile_id"])
+			#display_vectorstores()
+			#vectorstore_selection_interface(st.session_state.user['id'])
 	
 		elif st.session_state.option == 'Image Analyser and Generator':
 			# Code for Image Generator
