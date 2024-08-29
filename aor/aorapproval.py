@@ -59,7 +59,6 @@ def showAOR():
     if selected_title:
         selected_aor = df2.loc[df['title'] == selected_title, 'aor'].values[0]
         st.divider()
-        st.divider()
         st.write(selected_aor)
     # Close the connection
     conn.close()

@@ -41,10 +41,10 @@ else:
 
 def login_function():
 	with st.form("Requester login"):
-		#username = st.text_input("Enter Username:", max_chars=20)
-		#password = st.text_input("Enter Password:", type="password", max_chars=16)
-		username='super_admin'
-		password='pass1234'
+		username = st.text_input("Enter Username:", max_chars=20)
+		password = st.text_input("Enter Password:", type="password", max_chars=16)
+		#username='super_admin'
+		#password='pass1234'
 		submit_button = st.form_submit_button("Login")
 		 # On submit, check if new passwords match and then update the password.
 		if submit_button:
