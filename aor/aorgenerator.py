@@ -52,10 +52,10 @@ def prototype_application():
 
 	# Dropdown for item selection
 	templates=get_templates()
-	if not templates:
-		name_to_path={template[2]:template[1] for template in templates}
-		selected_name=st.selectbox("Select a Template:",list(name_to_path.keys()))
-		selected_path=name_to_path[selected_name]
+	name_to_path={template[2]:template[1] for template in templates}
+ 
+	selected_name=st.selectbox("Select a Template:",list(name_to_path.keys()))
+	selected_path=name_to_path[selected_name]
  
 	# Generate button
 	if st.button("Generate", type="primary"):
