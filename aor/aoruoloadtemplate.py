@@ -26,7 +26,7 @@ def prototype_application():
     # File uploader
     uploaded_file = st.file_uploader("Upload a file")
 
-    if st.button("Upload"):
+    if st.button("Upload", type="primary"):
         file_path = os.path.join(UPLOAD_DIRECTORY, uploaded_file.name)
         with open(file_path, "wb") as f:
             f.write(uploaded_file.getbuffer())

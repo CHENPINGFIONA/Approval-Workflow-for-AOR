@@ -58,7 +58,7 @@ def prototype_application():
 	selected_path=name_to_path[selected_name]
  
 	# Generate button
-	if st.button("Generate"):
+	if st.button("Generate", type="primary"):
 		generated_aor = generate_aor(selected_path)
 		st.session_state.text_area_value = generated_aor
 
@@ -68,13 +68,13 @@ def prototype_application():
 
   
 	# Submit button
-	if st.button("Submit",disabled=not title):
+	if st.button("Submit",disabled=not title,type="primary"):
 		save_aor_to_db(title, text_area)
 		st.success(f"AOR {title} has been saved successfully.")
 		
     
     # Save as template  button
-	if st.button("Save as Template",disabled=not title):
+	if st.button("Save as Template",disabled=not title,type="secondary"):
 		file_path=save_to_file(title,text_area)
 		save_template_to_db(file_path,title)
 		st.success(f"Template {title} has been saved successfully.")
@@ -110,7 +110,7 @@ def aor_chatbot(generated_aor):
 			st.session_state.text_area_value = response
 		# Add assistant response to chat history
 		st.session_state.messages.append({"role": "assistant", "content": response})
-  
+		st.rerun()
 
 def chat_completion(prompt_design, prompt):
 	MODEL = "gpt-4o-mini"
