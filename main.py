@@ -315,7 +315,7 @@ def main():
 					# Using the is_function_disabled function for setting the `disabled` attribute
 				st.session_state.option = sac.menu([
 					sac.MenuItem('Home', icon='house', children=[
-						sac.MenuItem(return_function_name('Personal Dashboard'), icon='person-circle', disabled=is_function_disabled('Personal Dashboard')),
+						sac.MenuItem("Dashboard", icon='person-circle'),
 						sac.MenuItem("Upload the AOR Template", icon='filetype-py'),
       					sac.MenuItem("AOR Generator", icon='filetype-py'),
            				sac.MenuItem("AOR Approval", icon='filetype-py'),
