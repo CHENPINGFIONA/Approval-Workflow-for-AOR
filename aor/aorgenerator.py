@@ -148,7 +148,7 @@ def get_templates():
 	cursor = conn.cursor()
 	
 	# Fetch only the password for the given username
-	cursor.execute('SELECT * FROM AOR_Template_Files ORDER BY uploaded_on DESC LIMIT 3')
+	cursor.execute('SELECT * FROM AOR_Template_Files ORDER BY uploaded_on DESC')
 	result = cursor.fetchall()
 	conn.close()
 	
