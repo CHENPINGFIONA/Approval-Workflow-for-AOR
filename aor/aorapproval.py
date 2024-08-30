@@ -16,7 +16,7 @@ else:
 
 def prototype_application():
  
-    st.title("AOR Approval")
+    st.title("QUICK AOR Approval")
     
     showAOR()
     remark = st.text_input("Remark:")
