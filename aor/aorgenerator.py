@@ -45,43 +45,50 @@ def generate_aor(selected_path):
     return response.choices[0].message.content
 
 
+# Main application function
 def prototype_application():
-	#insert the code
- 
-	st.title("AOR Generator")
+    st.title("AOR Generator")
 
-	# Dropdown for item selection
-	templates=get_templates()
-	name_to_path={template[2]:template[1] for template in templates}
+    # Get the templates (you can modify `get_templates()` to fetch actual data)
+    templates = get_templates()
+
+    # Check if the list is empty
+    if not templates:
+        st.warning("Please upload a template.")
+    else:
+        renderUI(templates)
  
-	selected_name=st.selectbox("Select a Template:",list(name_to_path.keys()))
-	selected_path=name_to_path[selected_name]
+ 
+def renderUI(templates):
+    name_to_path={template[2]:template[1] for template in templates}
+    
+    selected_name=st.selectbox("Select a Template:",list(name_to_path.keys()))
+    selected_path=name_to_path[selected_name]
  
 	# Generate button
-	if st.button("Generate", type="primary"):
-		generated_aor = generate_aor(selected_path)
-		st.session_state.text_area_value = generated_aor
+    if st.button("Generate", type="primary"):
+        generated_aor = generate_aor(selected_path)
+        st.session_state.text_area_value = generated_aor
 
-	title = st.text_input("AOR Title:")
+    title = st.text_input("AOR Title:")
 	# Text area
-	text_area = st.text_area("Generated Text:", value=st.session_state.get('text_area_value', ''), height=500)
+    text_area = st.text_area("Generated Text:", value=st.session_state.get('text_area_value', ''), height=500)
 
   
 	# Submit button
-	if st.button("Submit",disabled=not title,type="primary"):
-		save_aor_to_db(title, text_area)
-		st.success(f"AOR {title} has been saved successfully.")
+    if st.button("Submit",disabled=not title,type="primary"):
+        save_aor_to_db(title, text_area)
+        st.success(f"AOR {title} has been saved successfully.")
 		
     
     # Save as template  button
-	if st.button("Save as Template",disabled=not title,type="secondary"):
-		file_path=save_to_file(title,text_area)
-		save_template_to_db(file_path,title)
-		st.success(f"Template {title} has been saved successfully.")
+    if st.button("Save as Template",disabled=not title,type="secondary"):
+        file_path=save_to_file(title,text_area)
+        save_template_to_db(file_path,title)
+        st.success(f"Template {title} has been saved successfully.")
      
-	aor_chatbot(text_area)
- 
-    
+    aor_chatbot(text_area)
+       
 def aor_chatbot(generated_aor):
 
 	# Initialize chat history
