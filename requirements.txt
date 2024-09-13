@@ -263,3 +263,5 @@ yarl==1.9.4
 youtube-search==2.1.2
 zipp==3.17.0
 fpdf
+fastapi 
+uvicorn
